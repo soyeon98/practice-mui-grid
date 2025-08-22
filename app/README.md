@@ -1,70 +1,78 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+리액트 실무용 기본 구조
 
-## Available Scripts
+src/
+ ├── assets/        # 이미지, 아이콘, 폰트 등 정적 리소스
+ ├── components/    # 재사용 가능한 UI 컴포넌트 (버튼, 카드, 모달 등)
+ ├── layouts/       # 페이지 레이아웃 (헤더/사이드바/푸터를 포함한 큰 틀)
+ ├── pages/         # 실제 라우트 단위 페이지들 (Home, Login, Dashboard 등)
+ ├── routes/        # 라우팅 설정 (React Router 설정 파일)
+ ├── sections/      # 특정 페이지 안에서만 쓰이는 컴포넌트 묶음
+ ├── services/      # API 호출, axios/fetch 등
+ ├── store/         # 전역 상태 관리 (Redux, Zustand, Context API 등)
+ ├── theme/         # 색상, 폰트, 라이트/다크모드 같은 스타일 설정
+ ├── utils/         # 유틸 함수들
+ ├── App.js
+ └── main.js (또는 index.js)
 
-In the project directory, you can run:
+1. 레이아웃 설계
+	layouts/DefaultLayout.js 같은 전체 페이지 틀을 먼저 잡기
+    Header, Sidebar, Footer 등 공통 UI를 배치
+    Outlet을 넣어서 각 페이지 내용이 들어갈 자리 표시
 
-### `npm start`
+2. 페이지 생성
+    pages/ 폴더에 각 URL에 해당하는 페이지 컴포넌트를 만들기
+    페이지 내부는 **sections/ components/**를 조합해서 내용 구성
+    URL 단위 화면 관리
+    말 그대로 페이지 단위 필요한 컴포넌트나 섹션을 페이지마다 넣어줌
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. 섹션/컴포넌트 구성
+    sections/ 폴더: 페이지 안에서만 쓰이는 UI 블록
+    예: DashboardSection, UserStatsSection
+    화면 안의 작은 블록
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. 라우트 연결
+    routes/index.js에서 path와 레이아웃을 지정
 
-### `npm test`
+보통 하나의 레이아웃에 하나의 outlet 존재
+페이지에서 해당 페이지에 들어갈 섹션이나 컴포넌트를 배치하고 라우트에 연결
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Grid의 구조
+    1. Container
+        Grid의 부모 역할
+        내부 Grid Item들을 정렬하고 간격(spacing) 관리
+        <Grid container spacing={2}>
+        ...
+        </Grid>
 
-### `npm run build`
+    2. Item
+        Container안에서 실제 칸을 차지하는 단위
+        너비(xs, sm, md, lg, xl)로 화면 크기에 따라 크키 조절
+        <Grid item xs={12} sm={6}>
+            <Card>내용</Card>
+        </Grid>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. 반응형 사이즈 속성
+    xs, sm, md, lg, xl → 12등분 그리드 기준
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    화면이 작으면(xs) : 12칸 → 한 줄 전체
+    화면이 작은 이상(sm) : 6칸 → 한 줄에 2개
+    화면이 중간 이상(md) : 4칸 → 한 줄에 3개
+    <Grid item xs={12} sm={6} md={4}>
+        <Card>Box</Card>
+    </Grid>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. spacing, align, justify
+    spacing: 칸 사이 간격
+    justifyContent: 가로 정렬 (flex-start, center, space-between)
+    alignItems: 세로 정렬 (flex-start, center, stretch)
 
-### `npm run eject`
+    <Grid container spacing={2} justifyContent="center" alignItems="flex-start">
+        <Grid item xs={4}><Card>1</Card></Grid>
+        <Grid item xs={4}><Card>2</Card></Grid>
+    </Grid>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    <Box p={2}> p는 패딩
+    숫자는 MUI spacing 단위를 의미
+    MUI 기본 spacing: 1 = 8px
+    p={2} → 2 * 8px = 16px padding 적용
